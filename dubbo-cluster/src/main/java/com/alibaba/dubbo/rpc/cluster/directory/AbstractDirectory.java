@@ -35,7 +35,6 @@ import java.util.List;
 
 /**
  * Abstract implementation of Directory: Invoker list returned from this Directory's list method have been filtered by Routers
- *
  */
 public abstract class AbstractDirectory<T> implements Directory<T> {
 
@@ -76,6 +75,7 @@ public abstract class AbstractDirectory<T> implements Directory<T> {
         if (localRouters != null && !localRouters.isEmpty()) {
             for (Router router : localRouters) {
                 try {
+                    logger.info("router rule: " + router.getUrl());
                     if (router.getUrl() == null || router.getUrl().getParameter(Constants.RUNTIME_KEY, false)) {
                         invokers = router.route(invokers, getConsumerUrl(), invocation);
                     }
@@ -101,9 +101,11 @@ public abstract class AbstractDirectory<T> implements Directory<T> {
         routers = routers == null ? new ArrayList<Router>() : new ArrayList<Router>(routers);
         // append url router
         String routerkey = url.getParameter(Constants.ROUTER_KEY);
+        logger.info("url all parameters: " + url.getParameters()+", routerkey: " + routerkey);
         if (routerkey != null && routerkey.length() > 0) {
             RouterFactory routerFactory = ExtensionLoader.getExtensionLoader(RouterFactory.class).getExtension(routerkey);
             routers.add(routerFactory.getRouter(url));
+            logger.info("added router url: " + url.getHost() + ":" + url.getIp() + ":" + url.getPath());
         }
         // append mock invoker selector
         routers.add(new MockInvokersSelector());

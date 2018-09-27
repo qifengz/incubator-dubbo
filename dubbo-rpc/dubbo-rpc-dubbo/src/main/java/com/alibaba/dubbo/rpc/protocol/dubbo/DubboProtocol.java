@@ -394,7 +394,7 @@ public class DubboProtocol extends AbstractProtocol {
      * Create new connection
      */
     private ExchangeClient initClient(URL url) {
-
+        logger.info("initClient");
         // client type setting.
         String str = url.getParameter(Constants.CLIENT_KEY, url.getParameter(Constants.SERVER_KEY, Constants.DEFAULT_REMOTING_CLIENT));
 
@@ -412,6 +412,7 @@ public class DubboProtocol extends AbstractProtocol {
         try {
             // connection should be lazy
             if (url.getParameter(Constants.LAZY_CONNECT_KEY, false)) {
+                logger.info("LazyConnectExchangeClient");
                 client = new LazyConnectExchangeClient(url, requestHandler);
             } else {
                 client = Exchangers.connect(url, requestHandler);

@@ -26,7 +26,7 @@
 
     <groupId>com.alibaba</groupId>
     <artifactId>dubbo-parent</artifactId>
-    <version>2.6.3-SNAPSHOT</version>
+    <version>2.6.3-mesh-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
@@ -150,7 +150,7 @@
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>dubbo-dependencies-bom</artifactId>
-                <version>2.6.3-SNAPSHOT</version>
+                <version>2.6.3-mesh</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -260,7 +260,7 @@
                                     <configLocation>codestyle/checkstyle.xml</configLocation>
                                     <suppressionsLocation>codestyle/checkstyle-suppressions.xml</suppressionsLocation>
                                     <headerLocation>codestyle/checkstyle-header.txt</headerLocation>
-                                    <linkXRef>false</linkXRef>
+                                    <!--<linkXRef>false</linkXRef>-->
                                     <encoding>UTF-8</encoding>
                                     <consoleOutput>true</consoleOutput>
                                     <failOnViolation>true</failOnViolation>
@@ -289,6 +289,9 @@
                                 </goals>
                                 <configuration>
                                     <doclint>none</doclint>
+                                    <additionalOptions>
+                                        <additionalOption>-Xdoclint:none</additionalOption>
+                                    </additionalOptions>
                                 </configuration>
                             </execution>
                         </executions>
@@ -383,9 +386,9 @@
                 <configuration>
                     <useSystemClassLoader>true</useSystemClassLoader>
                     <forkMode>once</forkMode>
-                    <argLine>${argline} ${jacocoArgLine}</argLine>
+                  <!--  <argLine>${argline} ${jacocoArgLine}</argLine>
                     <systemProperties>
-                        <!-- common shared -->
+                        &lt;!&ndash; common shared &ndash;&gt;
                         <property>
                             <name>transporter</name>
                             <value>${transporter}</value>
@@ -394,7 +397,7 @@
                             <name>serialization</name>
                             <value>${serialization}</value>
                         </property>
-                        <!-- server side -->
+                        &lt;!&ndash; server side &ndash;&gt;
                         <property>
                             <name>port</name>
                             <value>${port}</value>
@@ -411,7 +414,7 @@
                             <name>iothreads</name>
                             <value>${iothreads}</value>
                         </property>
-                        <!-- client side -->
+                        &lt;!&ndash; client side &ndash;&gt;
                         <property>
                             <name>server</name>
                             <value>${server}</value>
@@ -444,7 +447,7 @@
                             <name>onerror</name>
                             <value>${onerror}</value>
                         </property>
-                    </systemProperties>
+                    </systemProperties>-->
                 </configuration>
             </plugin>
             <plugin>

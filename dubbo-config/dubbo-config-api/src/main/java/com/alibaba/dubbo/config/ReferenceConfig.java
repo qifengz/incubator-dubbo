@@ -29,10 +29,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.config.model.ApplicationModel;
 import com.alibaba.dubbo.config.model.ConsumerModel;
 import com.alibaba.dubbo.config.support.Parameter;
-import com.alibaba.dubbo.rpc.Invoker;
-import com.alibaba.dubbo.rpc.Protocol;
-import com.alibaba.dubbo.rpc.ProxyFactory;
-import com.alibaba.dubbo.rpc.StaticContext;
+import com.alibaba.dubbo.rpc.*;
 import com.alibaba.dubbo.rpc.cluster.Cluster;
 import com.alibaba.dubbo.rpc.cluster.directory.StaticDirectory;
 import com.alibaba.dubbo.rpc.cluster.support.AvailableCluster;
@@ -45,6 +42,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -351,7 +350,6 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
         } else {
             isJvmRefer = isInjvm().booleanValue();
         }
-
         if (isJvmRefer) {
             URL url = new URL(Constants.LOCAL_PROTOCOL, NetUtils.LOCALHOST, 0, interfaceClass.getName()).addParameters(map);
             invoker = refprotocol.refer(interfaceClass, url);
@@ -384,12 +382,22 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
                         }
                         urls.add(u.addParameterAndEncoded(Constants.REFER_KEY, StringUtils.toQueryString(map)));
                     }
-                }
-                if (urls.isEmpty()) {
-                    throw new IllegalStateException("No such any registry to reference " + interfaceName + " on the consumer " + NetUtils.getLocalHost() + " use dubbo version " + Version.getVersion() + ", please config <dubbo:registry address=\"...\" /> to your spring config.");
-                }
-            }
+                } else
 
+            if (meshmode) {
+                logger.info("meshMode: " + meshmode + ", meshPort: " + (meshport == 0 ? 9090 : meshport));
+                // assemble tmp URL, turn off check
+                if (check == null) {
+                    check = false;
+                    map.put(Constants.CHECK_KEY, "false");
+                }
+                URL url = new URL(Constants.DEFAULT_PROTOCOL, interfaceName + ".rpc", meshport == 0 ? 9090 : meshport, interfaceClass.getName()).addParameters(map);
+                urls.add(url);
+            }
+            }
+            if (urls.isEmpty()) {
+                throw new IllegalStateException("No such any registry to reference " + interfaceName + " on the consumer " + NetUtils.getLocalHost() + " use dubbo version " + Version.getVersion() + ", please config <dubbo:registry address=\"...\" /> to your spring config.");
+            }
             if (urls.size() == 1) {
                 invoker = refprotocol.refer(interfaceClass, urls.get(0));
             } else {
@@ -410,7 +418,6 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
                 }
             }
         }
-
         Boolean c = check;
         if (c == null && consumer != null) {
             c = consumer.isCheck();

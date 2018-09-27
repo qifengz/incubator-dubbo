@@ -139,7 +139,6 @@ public class AnnotationPropertyValuesAdapterTest {
     }
 
     private static class TestBean {
-
         @Reference(
                 interfaceClass = DemoService.class, interfaceName = "com.alibaba.dubbo.config.spring.api.DemoService", version = "${version}", group = "group",
                 url = "${url}  ", client = "client", generic = true, injvm = true,
@@ -150,7 +149,7 @@ public class AnnotationPropertyValuesAdapterTest {
                 loadbalance = "random", async = true, actives = 1, sent = true,
                 mock = "mock", validation = "validation", timeout = 2, cache = "cache",
                 filter = {"default", "default"}, listener = {"default", "default"}, parameters = {"key1", "value1"}, application = "application",
-                module = "module", consumer = "consumer", monitor = "monitor", registry = {"registry1", "registry2"}
+                module = "module", consumer = "consumer", monitor = "monitor", registry = {"registry1", "registry2"}, meshMode = true
         )
         private DemoService demoService;
 

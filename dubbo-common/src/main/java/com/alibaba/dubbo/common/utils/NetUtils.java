@@ -139,7 +139,8 @@ public class NetUtils {
         return (name != null
                 && !ANYHOST.equals(name)
                 && !LOCALHOST.equals(name)
-                && IP_PATTERN.matcher(name).matches());
+                && IP_PATTERN.matcher(name).matches())
+                && !name.startsWith("192.168");
     }
 
     public static String getLocalHost() {

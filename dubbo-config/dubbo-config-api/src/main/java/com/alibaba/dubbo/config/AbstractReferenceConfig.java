@@ -61,6 +61,10 @@ public abstract class AbstractReferenceConfig extends AbstractInterfaceConfig {
     // group
     protected String group;
 
+    protected Boolean meshmode;
+
+    protected int meshport;
+
     public Boolean isCheck() {
         return check;
     }
@@ -198,4 +202,21 @@ public abstract class AbstractReferenceConfig extends AbstractInterfaceConfig {
         this.group = group;
     }
 
+    @Parameter(key = Constants.SVC_MESH_MODE)
+    public Boolean getMeshmode() {
+        return meshmode;
+    }
+
+    public void setMeshmode(Boolean meshmode) {
+        this.meshmode = meshmode;
+    }
+
+    @Parameter(key = Constants.MESH_SERVER_PORT)
+    public int getMeshport() {
+        return meshport;
+    }
+
+    public void setMeshport(int meshport) {
+        this.meshport = meshport;
+    }
 }

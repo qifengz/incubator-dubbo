@@ -112,4 +112,7 @@ public @interface Reference {
 
     String[] registry() default {};
 
+    boolean meshMode() default false;
+
+    int meshPort() default 9090;
 }

@@ -635,6 +635,10 @@ public class Constants {
 
     public static final String MULTICAST = "multicast";
 
+    public static final String SVC_MESH_MODE = "meshmode";
+
+    public static final String MESH_SERVER_PORT = "meshport";
+
     /*
      * private Constants(){ }
      */
